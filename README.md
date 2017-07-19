@@ -16,7 +16,7 @@ Like tags and IDs.
 #### 2. RUN
 
 ```shell
-python forwarder.py
+python bot.py
 ```
 
 #### 3. That's all
