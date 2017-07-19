@@ -6,13 +6,13 @@ bot = telebot.TeleBot("<TOKEN>")
 forwarder_list = [235274404, 136971973, 290855719, 242382379, 311300407, 363246572, 184292188]
 
 
-@bot.message_handler(func=lambda message: "#matpin" in message.text)
+@bot.message_handler(func=lambda message: True)
 def forward_to_matpin(message):
-    if "group" in message.chat.type and str(message.chat.id) == "-1001076357496":
-        send_group_forward(message)
+    if "group" in message.chat.type:
+        if str(message.chat.id) == "-1001076357496" and "#matpin" in message.text:
+            send_group_forward(message)
     else:
-        if "/ping" not in message.text:
-            send_private_forward(message)
+        send_private_forward(message)
 
 
 @bot.message_handler(commands=['ping'])
@@ -34,7 +34,7 @@ def send_group_forward(message):
 def send_private_forward(message):
     if message.from_user.id in forwarder_list:
         if message.forward_date is not None:
-            bot.forward_message("@matpin", message.forward_from_chat.id, message.reply_to_message.message_id)
+            bot.forward_message("@matpin", message.chat.id, message.message_id)
             bot.send_message(message.chat.id, "已经转发过去了哟～")
         else:
             bot.send_message(message.chat.id, "咱只能转发转发给咱的消息哟～")
